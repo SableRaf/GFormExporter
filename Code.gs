@@ -3,6 +3,9 @@
 // Known issues
 // - There is no way to handle file upload items (https://github.com/stevenschmatz/export-google-form/issues/4)
 
+// TO DOs
+// - [ ] investigate why typedItem.getGoToPage() is always null on PAGE_BREAK items
+
 var URL =
   "https://docs.google.com/forms/d/1Fb70JIKGymw67zmaLyotTZFny_rL6seUalbVtkvflYc/"; // dummy form
 // var URL = "https://docs.google.com/forms/d/1uj8IP120ZkFCsW9nXrLWvXL1fEuChoR6h-uc53tguco/" // duplicates test
@@ -169,6 +172,10 @@ function itemToObject_(item) {
 
     case FormApp.ItemType.PAGE_BREAK:
       data.pageNavigationType = typedItem.getPageNavigationType().toString();
+      if (!isNull_(typedItem.getGoToPage())) {
+        // TO DO: figure out why typedItem.getGoToPage() is always null
+        data.goToPage = typedItem.getGoToPage().getTitle();
+      }
       break;
 
     default:
